@@ -1,0 +1,42 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Aug 11 21:39:26 2023
+
+@author: fatih
+"""
+
+import drawsvg as draw
+import pandas as pd
+
+df =pd.read_excel('words.xlsx')
+
+list1=[]
+list2=[]
+list3=[]
+
+    
+for i in range(794):
+    list1.append(df.iloc[i,0])
+    list2.append(df.iloc[i,1])
+    list3.append(df.iloc[i,2])
+
+for i in range(794):
+    
+    d = draw.Drawing(400, 200, origin='center',
+        animation_config=draw.types.SyncedAnimationConfig(
+            # Animation configuration
+            duration=10,  # Seconds
+            show_playback_progress=False,
+            show_playback_controls=False))
+
+    d.append(draw.Rectangle(-400, -200, 800, 400, fill='#black'))  # Background
+    r = draw.Text([list1[i],list2[i],list3[i]], 12, -10, -5, fill='#00FF00',fill_opacity=0.0, center=True)
+    
+             
+    r.add_key_frame(0,fill_opacity=0.0)
+    r.add_key_frame(3,fill_opacity=1)
+    r.add_key_frame(8,fill_opacity=1)
+    r.add_key_frame(10,fill_opacity=0)
+    d.append(r)
+    
+    d.save_svg('ai_said_'+str(i)+'.svg')
